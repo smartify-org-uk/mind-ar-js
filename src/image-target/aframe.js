@@ -13,7 +13,7 @@ AFRAME.registerSystem('mindar-image-system', {
   tick: function() {
   },
 
-  setup: function({imageTargetSrc, maxTrack, showStats, uiLoading, uiScanning, uiError, missTolerance, warmupTolerance, filterMinCF, filterBeta}) {
+  setup: function({imageTargetSrc, maxTrack, showStats, uiLoading, uiScanning, uiError, missTolerance, warmupTolerance, filterMinCF, filterBeta, shouldFaceUser, userDeviceId, environmentDeviceId}) {
     this.imageTargetSrc = imageTargetSrc;
     this.maxTrack = maxTrack;
     this.filterMinCF = filterMinCF;
@@ -21,6 +21,9 @@ AFRAME.registerSystem('mindar-image-system', {
     this.missTolerance = missTolerance;
     this.warmupTolerance = warmupTolerance;
     this.showStats = showStats;
+    this.shouldFaceUser = shouldFaceUser;
+    this.userDeviceId = userDeviceId;
+    this.environmentDeviceId = environmentDeviceId;
     this.ui = new UI({uiLoading, uiScanning, uiError});
   },
 
@@ -87,9 +90,25 @@ AFRAME.registerSystem('mindar-image-system', {
       return;
     }
 
-    navigator.mediaDevices.getUserMedia({audio: false, video: {
-      facingMode: 'environment',
-    }}).then((stream) => {
+    const constraints = {
+      audio: false,
+      video: {}
+    };
+    if (this.shouldFaceUser) {
+      if (this.userDeviceId) {
+        constraints.video.deviceId = { exact: this.userDeviceId };
+      } else {
+        constraints.video.facingMode = 'user';
+      }
+    } else {
+      if (this.environmentDeviceId) {
+        constraints.video.deviceId = { exact: this.environmentDeviceId };
+      } else {
+        constraints.video.facingMode = 'environment';
+      }
+    }
+
+    navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
       this.video.addEventListener( 'loadedmetadata', () => {
         //console.log("video ready...", this.video);
         this.video.setAttribute('width', this.video.videoWidth);
