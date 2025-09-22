@@ -233,6 +233,9 @@ AFRAME.registerComponent('mindar-image', {
     uiLoading: {type: 'string', default: 'yes'},
     uiScanning: {type: 'string', default: 'yes'},
     uiError: {type: 'string', default: 'yes'},
+    shouldFaceUser: {type: 'boolean', default: false},
+    userDeviceId: {type: 'string', default: ''},
+    environmentDeviceId: {type: 'string', default: ''},
   },
 
   init: function() {
@@ -249,6 +252,9 @@ AFRAME.registerComponent('mindar-image', {
       uiLoading: this.data.uiLoading,
       uiScanning: this.data.uiScanning,
       uiError: this.data.uiError,
+      shouldFaceUser: this.data.shouldFaceUser,
+      userDeviceId: this.data.userDeviceId,
+      environmentDeviceId: this.data.environmentDeviceId,
     });
     if (this.data.autoStart) {
       this.el.sceneEl.addEventListener('renderstart', () => {
