@@ -195,7 +195,7 @@ AFRAME.registerSystem('mindar-image-system', {
     }
 
     const proj = this.controller.getProjectionMatrix();
-    const fov = 2 * Math.atan(1/proj[5] / vh * container.clientHeight ) * 180 / Math.PI; // vertical fov
+    // const fov = 2 * Math.atan(1/proj[5] / vh * container.clientHeight ) * 180 / Math.PI; // vertical fov
     const near = proj[14] / (proj[10] - 1.0);
     const far = proj[14] / (proj[10] + 1.0);
     const ratio = proj[5] / proj[0]; // (r-l) / (t-b)
@@ -203,7 +203,7 @@ AFRAME.registerSystem('mindar-image-system', {
     const newAspect = container.clientWidth / container.clientHeight;
     const cameraEle = container.getElementsByTagName("a-camera")[0];
     const camera = cameraEle.getObject3D('camera');
-    camera.fov = fov;
+    // camera.fov = fov;
     camera.aspect = newAspect;
     camera.near = near;
     camera.far = far;
