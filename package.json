@@ -42,10 +42,6 @@
   "peerDependencies": {
     "three": ">=0.136.0"
   },
-  "files": [
-    "dist/",
-    "src/"
-  ],
   "devDependencies": {
     "vite": "^5.0.11"
   }
